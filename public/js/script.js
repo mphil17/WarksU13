@@ -1,6 +1,12 @@
+window.onload = (event) => {
+    loggedOutObjects();
+};
+
 /*------------------auth status------------------------*/
 let loggedIn = document.getElementById("loggedIn");
 const auth = firebase.auth();
+
+
 
 auth.onAuthStateChanged(function(user) {
     if (user) {
@@ -13,18 +19,12 @@ auth.onAuthStateChanged(function(user) {
 
 // changes made to webpage when user logs in
 function loggedInObjects() {
-    let signUp = document.getElementById("signup-nav");
-    signUp.style.display = "none";
-    let login = document.getElementById("login-nav");
-    login.style.display = "none";
-    let logout = document.getElementById("logout");
-    logout.style.display = "inline-block";
-    let user = document.getElementById("userInfo");
-    user.style.display = "block";
-    var emailShow = document.getElementById("email");
-    var passwordShow = document.getElementById("password");
-    emailShow.style.display = "none";
-    passwordShow.style.display = "none";
+    document.getElementById("signup-nav").style.display = "none";
+    document.getElementById("login-nav").style.display = "none";
+    document.getElementById("logout-nav").style.display = "inline-block";
+    document.getElementById("userInfo").style.display = "block";
+    document.getElementById("email").style.display = "none";
+    document.getElementById("password").style.display = "none";
     // tells user they are logged in
     var thisUser = firebase.auth().currentUser;
     let html = `<p> You are logged in as: <strong> ${thisUser.email}</strong></p>`;
@@ -32,18 +32,12 @@ function loggedInObjects() {
 }
 
 function loggedOutObjects() {
-    let signUp = document.getElementById("signup-nav");
-    signUp.style.display = "inline-block";
-    let login = document.getElementById("login-nav");
-    login.style.display = "inline-block";
-    let logout = document.getElementById("logout");
-    logout.style.display = "none";
-    var emailShow = document.getElementById("email");
-    var passwordShow = document.getElementById("password");
-    emailShow.style.display = "inline-block";
-    passwordShow.style.display = "inline-block";
-    let user = document.getElementById("userInfo");
-    user.style.display = "none";
+    document.getElementById("signup-nav").style.display = "inline-block";
+    document.getElementById("login-nav").style.display = "inline-block";
+    document.getElementById("logout-nav").style.display = "none";
+    document.getElementById("email").style.display = "inline-block";
+    document.getElementById("password").style.display = "inline-block";
+    document.getElementById("userInfo").style.display = "none";
     loggedIn.innerHTML = "";
 }
 
