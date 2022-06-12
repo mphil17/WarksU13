@@ -12,11 +12,11 @@
 
 <body>
     <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
-    <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.8.2/firebase-app.js"></script>
 
     <!-- Add Firebase products that you want to use -->
-    <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.8.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.8.2/firebase-firestore.js"></script>
 
     <!--Your web app's Firebase configuration-->
     <script>
@@ -26,12 +26,15 @@
             projectId: "warwickshire-u13-hockey",
             storageBucket: "warwickshire-u13-hockey.appspot.com",
             messagingSenderId: "386647033991",
+            databaseURL: "https://warwickshire-u13-hockey-default-rtdb.firebaseio.com/",
             appId: "1:386647033991:web:f7a606b21d76b37e9cd022",
             measurementId: "G-9ZHM6DTX5D"
         };
+
+
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
-        const db = firebase.firestore();
+        const db = getDatabase();
     </script>
     <script src="/__/firebase/init.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -63,7 +66,7 @@
                     <div class="navbar-nav">
                         <a class="nav-item nav-link active" href="index.html">
                             <h4 class="main-sect-font2">Home</h4> <span class="sr-only">(current)</span></a>
-                        <a class="nav-item nav-link" href="#">
+                        <a class="nav-item nav-link" href="events.html">
                             <h4 class="main-sect-font2">Upcoming Events</h4>
                         </a>
                         <a class="nav-item nav-link" href="#" id="userInfo">

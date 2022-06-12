@@ -1,6 +1,12 @@
+let firstWindowLoad = false;
+
 window.onload = (event) => {
-    loggedOutObjects();
+    if (firstWindowLoad == false) {
+        loggedOutObjects();
+        firstWindowLoad = true;
+    }
 };
+
 
 /*------------------auth status------------------------*/
 let loggedIn = document.getElementById("loggedIn");
@@ -28,7 +34,7 @@ function loggedInObjects() {
     // tells user they are logged in
     var thisUser = firebase.auth().currentUser;
     let html = `<p> You are logged in as: <strong> ${thisUser.email}</strong></p>`;
-    loggedIn.innerHTML = html;
+    /*loggedIn.innerHTML = html;*/
 }
 
 function loggedOutObjects() {
@@ -38,18 +44,31 @@ function loggedOutObjects() {
     document.getElementById("email").style.display = "inline-block";
     document.getElementById("password").style.display = "inline-block";
     document.getElementById("userInfo").style.display = "none";
-    loggedIn.innerHTML = "";
+    /*loggedIn.innerHTML = "";*/
 }
 
 function signUp() {
+    /*Authentication*/
     var email = document.getElementById("email");
     var password = document.getElementById("password");
+    var name = document.getElementById("name");
     const promise = auth.createUserWithEmailAndPassword(email.value, password.value);
     promise.catch(e => alert(e.message));
+
+    /*Send info to database*/
+    var id = 1;
+    var playername = document.getElementById("name");
+    set(ref(db, 'users/' + id), {
+        id: id,
+        playername: playername,
+        email: email,
+    })
+
 
     alert("Signed up");
     email.style.display = "none";
     password.style.display = "none";
+    name.style.display = "none";
 }
 
 function signOut() {

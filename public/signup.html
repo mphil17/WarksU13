@@ -26,19 +26,20 @@
             projectId: "warwickshire-u13-hockey",
             storageBucket: "warwickshire-u13-hockey.appspot.com",
             messagingSenderId: "386647033991",
+            databaseURL: "https://warwickshire-u13-hockey-default-rtdb.firebaseio.com/",
             appId: "1:386647033991:web:f7a606b21d76b37e9cd022",
             measurementId: "G-9ZHM6DTX5D"
         };
 
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getDatabase();
     </script>
     <script src="/__/firebase/init.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj " crossorigin="anonymous "></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo " crossorigin="anonymous "></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI " crossorigin="anonymous "></script>
-
+    <script src="js/script.js "></script>
     <section class="section-1 ">
         <div class="row ">
             <div class="col-10 d-flex justify-content-end">
@@ -61,7 +62,7 @@
                     <div class="navbar-nav">
                         <a class="nav-item nav-link active" href="index.html">
                             <h4 class="main-sect-font2">Home</h4> <span class="sr-only ">(current)</span></a>
-                        <a class="nav-item nav-link" href="#">
+                        <a class="nav-item nav-link" href="events.html">
                             <h4 class="main-sect-font2">Upcoming Events</h4>
                         </a>
                         <a class="nav-item nav-link" href="#" id="userInfo">
@@ -80,7 +81,7 @@
         <div id="formContainer ">
             <div class="row ">
                 <div class="col-12 form-sign-in d-flex justify-content-center ">
-                    <input type="name " placeholder="player 's name" id="name">
+                    <input type="name" placeholder="player's name" id="name">
                     <input type="email" placeholder="your email" id="email">
                     <input type="password" placeholder="password" id="password">
                 </div>
@@ -100,7 +101,6 @@
         </div>
     </section>
 
-    <script src="js/script.js "></script>
 
 </body>
 
