@@ -33,10 +33,11 @@ function loggedInObjects() {
     document.getElementById("email").style.display = "none";
     document.getElementById("password").style.display = "none";
     document.getElementById("name").style.display = "none";
+    document.getElementById("signUp").style.display = "none";
     // tells user they are logged in
     var thisUser = auth.currentUser;
     let html = `<p> You are logged in as: <strong> ${thisUser.email}</strong></p>`;
-    /*loggedIn.innerHTML = html;*/
+    loggedIn.innerHTML = html;
 }
 
 function loggedOutObjects() {
@@ -46,7 +47,8 @@ function loggedOutObjects() {
     document.getElementById("email").style.display = "inline-block";
     document.getElementById("password").style.display = "inline-block";
     document.getElementById("userInfo").style.display = "none";
-    /*loggedIn.innerHTML = "";*/
+    document.getElementById("signUp").style.display = "inline-block";
+    loggedIn.innerHTML = "";
 }
 
 function sendNewUserToDatabase() {
@@ -75,16 +77,11 @@ function signOut() {
     promise.catch(e => alert(e.message));
     alert("Signed out")
 
-    var email = document.getElementById("email");
-    var password = document.getElementById("password");
-    email.style.display = "inline-block";
-    password.style.display = "inline-block";
-    let signUp = document.getElementById("signUp");
-    let signIn = document.getElementById("signIn");
-    let signOut = document.getElementById("signOut");
-    signUp.style.display = "inline-block";
-    signIn.style.display = "inline-block";
-    signOut.style.display = "none";
+    loggedOutObjects();
+
+    document.getElementById("signUp").style.display = "inline-block";
+    document.getElementById("signIn").style.display = "inline-block";
+    document.getElementById("signOut").style.display = "none";
 }
 
 function signIn() {
