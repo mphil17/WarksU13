@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css">
-    <script defer src="https://kit.fontawesome.com/a012878c4d.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/8be532b9a9.js" crossorigin="anonymous"></script>
     <title>Warwickshire Hockey U13</title>
 </head>
 
@@ -90,7 +90,13 @@
                         <td>Training</td>
                         <td>Warwick</td>
                         <td>12.00pm Meet, 1pm start, 3pm finish</td>
-                        <td></td>
+                        <td>
+                            <div id="availability">
+                                <button class="btn-available-yes" id="yes-btn" onclick="setAvailability();"><i class="fa-solid fa-check"></i></button>
+                                <button class="btn-available-no" id="no-btn" onclick="setAvailability();"><i class="fa-solid fa-xmark"></i></button>
+                                <button class="btn-available-edit" id="edit-btn" onclick="setAvailability();">Edit</button>
+                            </div>
+                        </td>
                     </tr>
                 </table>
             </div>
