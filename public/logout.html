@@ -38,27 +38,23 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 
-    <!--Navbar using bootstrap-->
     <section class="section-1">
         <div class="row">
             <div class="col-10 d-flex justify-content-end">
                 <h1 style="color: aliceblue; font-size: 5vw; padding-right: 20px;">Warwickshire Hockey U13</h1>
             </div>
             <div class="col-md-2 d-flex justify-content-end" style="padding-top: 50px;">
-                <a href="login.html" id="login-nav"><button class="button-style">Login</button></a>
-                <a href="signup.html" id="signup-nav"><button class="button-style">Sign Up</button></a>
-                <a href="logout.html" id="logout-nav"><button class="button-style" onclick="signOut()">Logout</button></a>
+                <a href="login.html"><button class="button-style">Login</button></a>
+                <a href="signup.html"><button class="button-style">Sign Up</button></a>
             </div>
         </div>
     </section>
-
     <section class="section-2">
-        <!--Navbar-->
         <div class="row">
             <nav class="col-2 navbar">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="main-sect-font" id="menu-cross">Menu</span>
-                </button>
+            <span class="main-sect-font" id="menu-cross">Menu</span>
+        </button>
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav">
                         <a class="nav-item nav-link active" href="index.html">
@@ -74,40 +70,8 @@
             </nav>
         </div>
         <div class="row" style="padding-top: 10px;">
-            <div class="col-12 d-flex justify-content-center">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col" width="10%">Date</th>
-                            <th scope="col">Type</th>
-                            <th scope="col">Venue</th>
-                            <th scope="col" width="20%">Times</th>
-                            <th scope="col" width="10%">Availability</th>
-                        </tr>
-                    </thead>
-                    <tr>
-                        <td id="event-date">12th June 2022</td>
-                        <td>Training</td>
-                        <td>Warwick</td>
-                        <td>12.00pm Meet, 1pm start, 3pm finish</td>
-                        <td>
-                            <div id="availability">
-                                <button class="btn-available-yes" id="yes-btn" onclick="setAvailability();"><i class="fa-solid fa-check"></i></button>
-                                <button class="btn-available-no" id="no-btn" onclick="setAvailability();"><i class="fa-solid fa-xmark"></i></button>
-                                <button class="btn-available-edit" id="edit-btn" onclick="setAvailability();">Edit</button>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-            </div>
+            You have now logged out.
         </div>
-    </section>
-    <!--Image-->
-    <section class="img-section">
-
-    </section>
-    <section class="section-3">
-
     </section>
 
     <script src="js/script.js"></script>

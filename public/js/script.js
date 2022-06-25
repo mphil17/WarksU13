@@ -2,18 +2,23 @@
 let loggedIn = document.getElementById("loggedIn");
 const auth = firebase.auth();
 const database = firebase.database();
+let playerNumber = 1
 
 
 
 auth.onAuthStateChanged(function(user) {
     if (user) {
-        document.getElementById("availability").style.display = "inline-block"
         console.log("logged in")
         loggedInObjects();
+        if (window.location.pathname == '/events') {
+            document.getElementById("availability").style.display = "inline-block"
+        }
     } else {
-        document.getElementById("availability").style.display = "none"
         console.log("logged out")
         loggedOutObjects();
+        if (window.location.pathname == '/events') {
+            document.getElementById("availability").style.display = "none"
+        }
     }
 })
 
@@ -23,14 +28,14 @@ function loggedInObjects() {
     document.getElementById("login-nav").style.display = "none";
     document.getElementById("logout-nav").style.display = "inline-block";
     document.getElementById("userInfo").style.display = "block";
-    /*document.getElementById("email").style.display = "none";
+    document.getElementById("email").style.display = "none";
     document.getElementById("password").style.display = "none";
     document.getElementById("name").style.display = "none";
     document.getElementById("signUp").style.display = "none";
     // tells user they are logged in
     var thisUser = auth.currentUser;
     let html = `<p> You are logged in as: <strong> ${thisUser.email}</strong></p>`;
-    loggedIn.innerHTML = html;*/
+    /*loggedIn.innerHTML = html;*/
 }
 
 function loggedOutObjects() {
@@ -39,19 +44,20 @@ function loggedOutObjects() {
     document.getElementById("logout-nav").style.display = "none";
     document.getElementById("email").style.display = "inline-block";
     document.getElementById("password").style.display = "inline-block";
+    document.getElementById("name").style.display = "inline-block";
     document.getElementById("userInfo").style.display = "none";
     document.getElementById("signUp").style.display = "inline-block";
-    loggedIn.innerHTML = "";
 }
 
 function sendNewUserToDatabase() {
     /*Send info to database*/
     playername = document.getElementById("name").value;
     email = document.getElementById("email").value;
-    database.ref('users/').push({
+    database.ref('users/' + playerNumber).set({
         playername: playername,
         email: email,
     })
+    playerNumber = playerNumber + 1;
 }
 
 function signUp() {
@@ -91,23 +97,36 @@ function setAvailability() {
 
     auth.onAuthStateChanged(function(user) {
         if (user) {
-            var dbUser = auth.user
+            /*var userId = firebase.auth().currentUser.uid;*/
+            var eventDate = document.getElementById("event-date").innerHTML;
             yesSelect = document.getElementById("yes-btn");
             noSelect = document.getElementById("no-btn");
             editSelect = document.getElementById("edit-btn");
-
+            database.ref('/users/' + playerNumber).on('value', (snapshot) => {
+                currentPlayer = snapshot.val().playername;
+            });
             yesSelect.addEventListener("click", function() {
                 noSelect.style.display = "none";
                 editSelect.style.display = "inline-block";
+                database.ref('availability/' + currentPlayer).child(eventDate).set({
+                    available: "Yes"
+                })
+                yesSelect.disabled = true;
             });
             noSelect.addEventListener("click", function() {
                 yesSelect.style.display = "none";
                 editSelect.style.display = "inline-block";
+                database.ref('availability/' + currentPlayer).child(eventDate).set({
+                    available: "No"
+                })
+                noSelect.disabled = true;
             });
             editSelect.addEventListener("click", function() {
                 yesSelect.style.display = "inline-block";
                 noSelect.style.display = "inline-block";
                 editSelect.style.display = "none";
+                noSelect.disabled = false;
+                yesSelect.disabled = false;
             });
         } else {
             alert("There has been a problem authenticating you")
