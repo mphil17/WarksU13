@@ -2,6 +2,8 @@
 let loggedIn = document.getElementById("loggedIn");
 const auth = firebase.auth();
 const database = firebase.database();
+
+/*------------for my own IDs------------------*/
 let playerNumber = 1
 
 
@@ -24,29 +26,37 @@ auth.onAuthStateChanged(function(user) {
 
 // changes made to webpage when user logs in
 function loggedInObjects() {
-    document.getElementById("signup-nav").style.display = "none";
-    document.getElementById("login-nav").style.display = "none";
-    document.getElementById("logout-nav").style.display = "inline-block";
-    document.getElementById("userInfo").style.display = "block";
-    document.getElementById("email").style.display = "none";
-    document.getElementById("password").style.display = "none";
-    document.getElementById("name").style.display = "none";
-    document.getElementById("signUp").style.display = "none";
-    // tells user they are logged in
-    var thisUser = auth.currentUser;
-    let html = `<p> You are logged in as: <strong> ${thisUser.email}</strong></p>`;
-    /*loggedIn.innerHTML = html;*/
+    if (window.location.pathname != '/admin.html') {
+        document.getElementById("signup-nav").style.display = "none";
+        document.getElementById("login-nav").style.display = "none";
+        document.getElementById("logout-nav").style.display = "inline-block";
+        document.getElementById("userInfo").style.display = "block";
+        if (window.location.pathname == '/signup') {
+            document.getElementById("email").style.display = "none";
+            document.getElementById("password").style.display = "none";
+            document.getElementById("name").style.display = "none";
+        }
+        document.getElementById("signUp").style.display = "none";
+        // tells user they are logged in
+        var thisUser = auth.currentUser;
+        let html = `<p> You are logged in as: <strong> ${thisUser.email}</strong></p>`;
+        /*loggedIn.innerHTML = html;*/
+    }
 }
 
 function loggedOutObjects() {
-    document.getElementById("signup-nav").style.display = "inline-block";
-    document.getElementById("login-nav").style.display = "inline-block";
-    document.getElementById("logout-nav").style.display = "none";
-    document.getElementById("email").style.display = "inline-block";
-    document.getElementById("password").style.display = "inline-block";
-    document.getElementById("name").style.display = "inline-block";
-    document.getElementById("userInfo").style.display = "none";
-    document.getElementById("signUp").style.display = "inline-block";
+    if (window.location.pathname != '/admin') {
+        document.getElementById("signup-nav").style.display = "inline-block";
+        document.getElementById("login-nav").style.display = "inline-block";
+        document.getElementById("logout-nav").style.display = "none";
+        if (window.location.pathname == '/signup') {
+            document.getElementById("email").style.display = "inline-block";
+            document.getElementById("password").style.display = "inline-block";
+            document.getElementById("name").style.display = "inline-block";
+        }
+        document.getElementById("userInfo").style.display = "none";
+        document.getElementById("signUp").style.display = "inline-block";
+    }
 }
 
 function sendNewUserToDatabase() {
@@ -80,6 +90,8 @@ function signOut() {
     document.getElementById("signUp").style.display = "inline-block";
     document.getElementById("signIn").style.display = "inline-block";
     document.getElementById("signOut").style.display = "none";
+
+    /*window.location.href = "#";*/
 }
 
 function signIn() {
@@ -109,7 +121,9 @@ function setAvailability() {
                 noSelect.style.display = "none";
                 editSelect.style.display = "inline-block";
                 database.ref('availability/' + currentPlayer).child(eventDate).set({
-                    available: "Yes"
+                    date: eventDate,
+                    playername: currentPlayer,
+                    available: "Yes",
                 })
                 yesSelect.disabled = true;
             });
@@ -117,7 +131,9 @@ function setAvailability() {
                 yesSelect.style.display = "none";
                 editSelect.style.display = "inline-block";
                 database.ref('availability/' + currentPlayer).child(eventDate).set({
-                    available: "No"
+                    date: eventDate,
+                    playername: currentPlayer,
+                    available: "No",
                 })
                 noSelect.disabled = true;
             });
@@ -129,7 +145,29 @@ function setAvailability() {
                 yesSelect.disabled = false;
             });
         } else {
-            alert("There has been a problem authenticating you")
+            /*window.location.href = "#";*/
         }
     })
+}
+
+function createAdminDatesList() {
+    var date = [];
+    database.ref('/availability/').on('value', (snapshot) => {
+        snapshot.forEach(function(childSnapshot) {
+            var item = Object.keys(childSnapshot.val());
+            date.push(item);
+        });
+
+        var select = document.getElementById("admin-date");
+        var optionsLength = select.options.length;
+        var optionsValue;
+        for (let i = 0; i < optionsLength; i++) {
+            optionsValue += i;
+        }
+        select.options[optionsLength] = new Option(date, optionsValue);
+    })
+}
+
+function createAvailabilityList() {
+
 }

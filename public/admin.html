@@ -10,7 +10,7 @@
     <title>Warwickshire Hockey U13</title>
 </head>
 
-<body>
+<body onload="createAdminDatesList();">
     <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
 
@@ -38,23 +38,25 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 
+    <!--Navbar using bootstrap-->
     <section class="section-1">
         <div class="row">
             <div class="col-10 d-flex justify-content-end">
                 <h1 style="color: aliceblue; font-size: 5vw; padding-right: 20px;">Warwickshire Hockey U13</h1>
             </div>
             <div class="col-md-2 d-flex justify-content-end" style="padding-top: 50px;">
-                <a href="login.html"><button class="button-style">Login</button></a>
-                <a href="signup.html"><button class="button-style">Sign Up</button></a>
+                <a href="login.html" id="logout-nav"><button class="button-style">Logout</button></a>
             </div>
         </div>
     </section>
+
     <section class="section-2">
+        <!--Navbar-->
         <div class="row">
             <nav class="col-2 navbar">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="main-sect-font" id="menu-cross">Menu</span>
-        </button>
+                    <span class="main-sect-font" id="menu-cross">Menu</span>
+                </button>
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav">
                         <a class="nav-item nav-link active" href="index.html">
@@ -69,13 +71,18 @@
                 </div>
             </nav>
         </div>
-        <div class="row" style="padding-top: 10px;">
-            You have now logged out.
+        <div class="row">
+            <div class="col-6">
+                <select id="admin-date">
+                    <option></option>
+                </select>
+            </div>
+            <div class="col-6"></div>
+
         </div>
     </section>
-
-    <script src="js/script.js"></script>
-
 </body>
+
+<script src="js/script.js"></script>
 
 </html>
