@@ -53,9 +53,10 @@ function loggedOutObjects() {
             document.getElementById("email").style.display = "inline-block";
             document.getElementById("password").style.display = "inline-block";
             document.getElementById("name").style.display = "inline-block";
+            document.getElementById("signUp").style.display = "inline-block";
         }
         document.getElementById("userInfo").style.display = "none";
-        document.getElementById("signUp").style.display = "inline-block";
+
     }
 }
 
@@ -152,22 +153,77 @@ function setAvailability() {
 
 function createAdminDatesList() {
     var date = [];
+    var alreadyDate;
     database.ref('/availability/').on('value', (snapshot) => {
         snapshot.forEach(function(childSnapshot) {
             var item = Object.keys(childSnapshot.val());
-            date.push(item);
+            /*check if the date is already in the array to stop duplications*/
+            for (let d = 0; d < date.length; d++) {
+                if (item.toString() === date[d].toString()) {
+                    alreadyDate = true;
+                    break
+                } else {
+                    alreadyDate = false;
+                }
+            }
+            if (alreadyDate != true) {
+                date.push(item);
+            }
         });
-
         var select = document.getElementById("admin-date");
-        var optionsLength = select.options.length;
+        var optionsLength = date.length;
         var optionsValue;
         for (let i = 0; i < optionsLength; i++) {
             optionsValue += i;
+            select.options[i] = new Option(date[i], optionsValue);
         }
-        select.options[optionsLength] = new Option(date, optionsValue);
+
+
     })
 }
 
 function createAvailabilityList() {
+    var avName = [];
+    var unavName = [];
+    var unset = [];
+    availTable = document.getElementById("availability-names");
+    unavailTable = document.getElementById("unavailability-names");
+    unsetavailTable = document.getElementById("notset-names");
+    /*clear to stop it writing multiple times on multiple clicks*/
+    availTable.innerHTML = "";
+    unavailTable.innerHTML = "";
+    unsetavailTable.innerHTML = "";
+    stringDate = "";
+    /*var date = document.getElementById("admin-date").value;*/
+    /*----create arrays for those available, not and unknown---*/
+    database.ref('/availability/').on('value', (snapshot) => {
+            snapshot.forEach(function(childSnapshot) {
+                var item = childSnapshot.key;
+                stringDate = Object.keys(childSnapshot.val());
+                var availabilityVar = snapshot.child(item).child(stringDate).child("available").val();
+                if (availabilityVar == 'Yes') {
+                    avName.push(item);
+                } else if (availabilityVar == 'No') {
+                    unavName.push(item);
+                } else {
+                    unset.push(item);
+                }
+            });
+        })
+        /*----display list for those available--*/
+    var nameListLength = avName.length;
+    for (let i = 0; i < nameListLength; i++) {
+        availTable.innerHTML += "<tr><td>" + avName[i] + "</td></tr>"
+    }
+    /*----display list for those not available----*/
+    var unavNameListLength = unavName.length;
+    for (let i = 0; i < unavNameListLength; i++) {
+        unavailTable.innerHTML += "<tr><td>" + unavName[i] + "</td></tr>"
+    }
+    /*-----display list for those unknown availability---*/
+    var unsetNameListLength = unset.length;
+    for (let i = 0; i < unsetNameListLength; i++) {
+        unsetavailTable.innerHTML += "<tr><td>" + unset[i] + "</td></tr>"
+    }
 
 }

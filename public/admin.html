@@ -73,12 +73,27 @@
         </div>
         <div class="row">
             <div class="col-6">
-                <select id="admin-date">
+                <h4>Dates</h4>
+                <select id="admin-date" onchange="createAvailabilityList();">
+                    <option>Nothing</option>
                     <option></option>
                 </select>
             </div>
-            <div class="col-6"></div>
+            <div class="col-6">
+                <h4>Available</h4>
+                <table id="availability-names">
 
+                </table>
+
+                <h4>Unavailable</h4>
+                <table id="unavailability-names">
+
+                </table>
+                <h4>Not set</h4>
+                <table id="notset-names">
+
+                </table>
+            </div>
         </div>
     </section>
 </body>
