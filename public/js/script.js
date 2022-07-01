@@ -35,8 +35,9 @@ function loggedInObjects() {
             document.getElementById("email").style.display = "none";
             document.getElementById("password").style.display = "none";
             document.getElementById("name").style.display = "none";
+            document.getElementById("signUp").style.display = "none";
         }
-        document.getElementById("signUp").style.display = "none";
+
         // tells user they are logged in
         var thisUser = auth.currentUser;
         let html = `<p> You are logged in as: <strong> ${thisUser.email}</strong></p>`;
@@ -182,6 +183,18 @@ function createAdminDatesList() {
     })
 }
 
+function setProfileName() {
+    database.ref('/users/').on('value', (snapshot) => {
+        snapshot.forEach(function(childSnapshot) {
+            userEmail = auth.currentUser.email;
+            avEmail = childSnapshot.val().email;
+            if (userEmail === avEmail) {
+                document.getElementById("profile-name").innerHTML = childSnapshot.val().playername;
+            }
+        })
+    })
+}
+
 function createAvailabilityList() {
     var avName = [];
     var unavName = [];
@@ -225,5 +238,43 @@ function createAvailabilityList() {
     for (let i = 0; i < unsetNameListLength; i++) {
         unsetavailTable.innerHTML += "<tr><td>" + unset[i] + "</td></tr>"
     }
+
+}
+
+function showAvailabilityEvents() {
+    /*var avEventDate = [];
+    for (let i = 0; i < ) 
+    document.getElementById("event-date").value;*/
+    yesSelect = document.getElementById("yes-btn");
+    noSelect = document.getElementById("no-btn");
+    editSelect = document.getElementById("edit-btn");
+    var avEventDate = document.getElementById("event-date").innerHTML;
+    /*get player name*/
+    database.ref('/users/').on('value', (snapshot) => {
+        snapshot.forEach(function(childSnapshot) {
+            userEmail = auth.currentUser.email;
+            avEmail = childSnapshot.val().email;
+            playerName = childSnapshot.val().playername;
+            if (userEmail === avEmail) {
+                database.ref('/availability/').on('value', (snapshot) => {
+                    availabilityVar = snapshot.child(playerName).child(avEventDate).child("available").val();
+                    if (availabilityVar == "Yes") {
+                        yesSelect.style.display = "inline-block";
+                        noSelect.style.display = "none";
+                        editSelect.style.display = "inline-block";
+                    } else if (availabilityVar == "No") {
+                        noSelect.style.display = "inline-block";
+                        yesSelect.style.display = "none";
+                        editSelect.style.display = "inline-block";
+                    } else {
+                        noSelect.style.display = "inline-block";
+                        yesSelect.style.display = "inline-block";
+                        editSelect.style.display = "none";
+                    }
+                })
+            }
+        })
+    })
+
 
 }
