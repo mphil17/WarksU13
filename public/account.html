@@ -42,7 +42,7 @@
     <section class="section-1">
         <div class="row">
             <div class="col-2 d-flex justify-content-center" style="padding-top: 30px;">
-                <a href="account.html" class="camera-pp-border"><i class="fa-solid fa-camera fa-xl camera-pp-style"></i></a>
+                <a href="#" class="camera-pp-border"><i class="fa-solid fa-camera fa-xl camera-pp-style"></i></a>
                 <p id="profile-name" class="pp-name"></p>
             </div>
             <div class="col-8 d-flex justify-content-end">
@@ -78,9 +78,23 @@
                 </div>
             </nav>
         </div>
-        <div class="row" style="padding-top: 10px;">
-            <div class="col-12 d-flex justify-content-center">
-                <p class="main-sect-font">Hello and Welcome to the website</p>
+        <div class="row" style="padding-top: 10px; margin-left: 10px; margin-right: 10px;">
+            <div class="col-xs-12 col-md-5">
+                <div class="form-group">
+                    <label for="playername">Player's Name</label>
+                    <input class="form-control" type="text" id="playername-account" name="playername">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input class="form-control" type="email" id="email-account" name="email">
+                </div>
+                <div class="form-group">
+                    <label for="photo">Profile Picture</label>
+                    <input class="form-control" type="file" id="account-photo" name="photo" accept="image/*">
+                </div>
+                <div>
+                    <button type="submit" class="button-style">Update</button>
+                </div>
             </div>
         </div>
     </section>
