@@ -17,6 +17,7 @@
     <!-- Add Firebase products that you want to use -->
     <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-storage.js"></script>
 
     <!--Your web app's Firebase configuration-->
     <script>
@@ -24,7 +25,7 @@
             apiKey: os.environ['FIREBASE_API_KEY'],
             authDomain: "warwickshire-u13-hockey.firebaseapp.com",
             projectId: "warwickshire-u13-hockey",
-            storageBucket: "warwickshire-u13-hockey.appspot.com",
+            storageBucket: "gs://warwickshire-u13-hockey.appspot.com",
             messagingSenderId: "386647033991",
             databaseURL: "https://warwickshire-u13-hockey-default-rtdb.firebaseio.com/",
             appId: "1:386647033991:web:f7a606b21d76b37e9cd022",
@@ -67,7 +68,8 @@
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav">
                         <a class="nav-item nav-link active" href="index.html">
-                            <h4 class="main-sect-font2">Home</h4> <span class="sr-only">(current)</span></a>
+                            <h4 class="main-sect-font2">Home</h4>
+                        </a>
                         <a class="nav-item nav-link" href="events.html">
                             <h4 class="main-sect-font2">Upcoming Events</h4>
                         </a>

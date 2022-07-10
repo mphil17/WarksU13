@@ -17,6 +17,7 @@
     <!-- Add Firebase products that you want to use -->
     <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-storage.js"></script>
 
     <!--Your web app's Firebase configuration-->
     <script>
@@ -52,13 +53,14 @@
     <section class="section-2">
         <div class="row">
             <nav class="col-2 navbar">
-                <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup " aria-controls="navbarNavAltMarkup " aria-expanded="false " aria-label="Toggle navigation ">
+                <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="main-sect-font" id="menu-cross">Menu</span>
         </button>
-                <div class="collapse navbar-collapse " id="navbarNavAltMarkup ">
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav">
                         <a class="nav-item nav-link active" href="index.html">
-                            <h4 class="main-sect-font2">Home</h4> <span class="sr-only ">(current)</span></a>
+                            <h4 class="main-sect-font2">Home</h4>
+                        </a>
                         <a class="nav-item nav-link" href="events.html">
                             <h4 class="main-sect-font2">Upcoming Events</h4>
                         </a>
@@ -69,17 +71,37 @@
                 </div>
             </nav>
         </div>
-        <div class="row" style="padding-top: 10px;">
-            <div class="col-12 d-flex justify-content-center ">
+        <div class="row" style="padding-top: 10px; padding-bottom: 20px;">
+            <div class="col-12 d-flex justify-content-center">
                 <h1>Sign Up</h1>
             </div>
         </div>
         <div id="formContainer">
             <div class="row">
-                <div class="col-12 form-sign-in d-flex justify-content-center ">
-                    <input type="name" placeholder="player's name" id="name">
-                    <input type="email" placeholder="your email" id="email">
-                    <input type="password" placeholder="password" id="password">
+                <div class="col-12 d-flex justify-content-center">
+                    <div class="form-group">
+                        <div class="col-12 form-group">
+                            <input type="name" placeholder="player's name" id="name" required>
+                        </div>
+                        <div class="col-12 form-group">
+                            <input type="email" placeholder="your email" id="email" required>
+                        </div>
+                        <div class="col-12 form-group">
+                            <input type="password" placeholder="password" id="password" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center">
+                <div class="row container-fluid">
+                    <div class="col-12 d-flex justify-content-center">
+                        <label for="photo">Profile Picture</label>
+                    </div>
+                </div>
+                <div class="row container-fluid">
+                    <div class="col-sm-12 col-md-3 offset-md-5 form-group">
+                        <input class="form-control pp-selector" type="file" id="profile-photo" name="photo" accept="image/*">
+                    </div>
                 </div>
             </div>
             <div class="row">
@@ -87,15 +109,22 @@
                     <button onclick="signUp(); sendNewUserToDatabase();" id="signUp" class="sign-in">Sign Up</button>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-12 d-flex justify-content-center">
-                    <p>Already signed up?<a href="login.html"> login</a>here</p>
-                </div>
-            </div>
-            <div id="loggedIn">
-                <button onclick="signOut();" id="signOut" class="sign-out">Sign Out</button>
+        </div>
+        <div class="row">
+            <div class="col-12 d-flex justify-content-center">
+                <p>Already signed up?<a href="login.html" class="pulsate"> login </a>here</p>
             </div>
         </div>
+        <div id="loggedIn">
+            <button onclick="signOut();" id="signOut" class="sign-out sign-out-hide">Sign Out</button>
+        </div>
+
+    </section>
+    <section class="img-section">
+
+    </section>
+    <section class="section-3">
+
     </section>
 
 

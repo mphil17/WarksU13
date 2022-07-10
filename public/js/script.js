@@ -2,6 +2,9 @@
 let loggedIn = document.getElementById("loggedIn");
 const auth = firebase.auth();
 const database = firebase.database();
+const user = firebase.auth().currentUser;
+const storage = firebase.storage();
+const storageRef = storage.ref();
 
 /*------------for my own IDs------------------*/
 let playerNumber = 1
@@ -10,15 +13,13 @@ let playerNumber = 1
 
 auth.onAuthStateChanged(function(user) {
     if (user) {
-        console.log("logged in")
         loggedInObjects();
-        if (window.location.pathname == '/events') {
+        if (window.location.pathname == '/events.html') {
             document.getElementById("availability").style.display = "inline-block"
         }
     } else {
-        console.log("logged out")
         loggedOutObjects();
-        if (window.location.pathname == '/events') {
+        if (window.location.pathname == '/events.html') {
             document.getElementById("availability").style.display = "none"
         }
     }
@@ -29,28 +30,27 @@ function loggedInObjects() {
     if (window.location.pathname != '/admin.html') {
         document.getElementById("signup-nav").style.display = "none";
         document.getElementById("login-nav").style.display = "none";
-        document.getElementById("logout-nav").style.display = "inline-block";
         document.getElementById("userInfo").style.display = "block";
-        if (window.location.pathname == '/signup') {
+        if (window.location.pathname != '/signup.html') {
+            document.getElementById("logout-nav").style.display = "inline-block";
+        }
+        if (window.location.pathname == '/signup.html') {
             document.getElementById("email").style.display = "none";
             document.getElementById("password").style.display = "none";
             document.getElementById("name").style.display = "none";
             document.getElementById("signUp").style.display = "none";
         }
-
-        // tells user they are logged in
-        var thisUser = auth.currentUser;
-        let html = `<p> You are logged in as: <strong> ${thisUser.email}</strong></p>`;
-        /*loggedIn.innerHTML = html;*/
     }
 }
 
 function loggedOutObjects() {
-    if (window.location.pathname != '/admin') {
+    if (window.location.pathname != '/admin.html') {
         document.getElementById("signup-nav").style.display = "inline-block";
         document.getElementById("login-nav").style.display = "inline-block";
-        document.getElementById("logout-nav").style.display = "none";
-        if (window.location.pathname == '/signup') {
+        if (window.location.pathname != '/signup.html') {
+            document.getElementById("logout-nav").style.display = "none";
+        }
+        if (window.location.pathname == '/signup.html') {
             document.getElementById("email").style.display = "inline-block";
             document.getElementById("password").style.display = "inline-block";
             document.getElementById("name").style.display = "inline-block";
@@ -61,15 +61,40 @@ function loggedOutObjects() {
     }
 }
 
+function makeId() {
+    let ID = "";
+    let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    for (var i = 0; i < 12; i++) {
+        ID += characters.charAt(Math.floor(Math.random() * 36));
+    }
+    return ID;
+}
+
+
 function sendNewUserToDatabase() {
+    /*put picture in storage if not blank*/
+    profilepic = document.getElementById("profile-photo").value;
+    var bytes = new Uint8Array([0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x2c, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x21]);
+    /*var file = new File(["profilepic"], profilepic)*/
+    if (profilepic != "") {
+        storageRef.child('/images/').put(bytes);
+    }
+
+    /*var profilePicRef = storage.child("profile picture");
+
+    // Create a reference to 'images/mountains.jpg'
+    var profilePicFullRef = storage.child(profilepic);*/
+
     /*Send info to database*/
     playername = document.getElementById("name").value;
     email = document.getElementById("email").value;
-    database.ref('users/' + playerNumber).set({
+    id = makeId();
+    console.log(profilepic);
+    database.ref('users/' + id).set({
         playername: playername,
         email: email,
+        profilepic: profilepic,
     })
-    playerNumber = playerNumber + 1;
 }
 
 function signUp() {
@@ -191,6 +216,10 @@ function setProfileName() {
             if (userEmail === avEmail) {
                 document.getElementById("profile-name").innerHTML = childSnapshot.val().playername;
             }
+            if (window.location.pathname == '/account.html') {
+                document.getElementById("email-account").value = userEmail;
+                document.getElementById("email-account").disabled = true;
+            }
         })
     })
 }
@@ -275,6 +304,27 @@ function showAvailabilityEvents() {
             }
         })
     })
+}
 
+function updateAccountDetails() {
+    /*let newPassword = document.getElementById("password-account");
+    let password = document.getElementById("old-password-account");
+    let email = document.getElementById("email-account");
+    auth.signInWithEmailAndPassword(email.value, password.value)
+        .then(() => {
+            user.updatePassword(newPassword.value).then(() => {
+                alert("Password Updated")
+            }, (error) => {
+                // An error happened.
+            });
+        })*/
+}
 
+function getPic() {
+    pp = document.getElementById("pppic");
+    database.ref('/users/').on('value', (snapshot) => {
+        snapshot.forEach(function(childSnapshot) {
+            pp.innerHTML = childSnapshot.val().profilepic;
+        })
+    })
 }
