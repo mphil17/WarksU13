@@ -2,7 +2,7 @@
 let loggedIn = document.getElementById("loggedIn");
 const auth = firebase.auth();
 const database = firebase.database();
-const user = firebase.auth().currentUser;
+const user = auth.currentUser;
 const storage = firebase.storage();
 const storageRef = storage.ref();
 
@@ -31,6 +31,7 @@ function loggedInObjects() {
         document.getElementById("signup-nav").style.display = "none";
         document.getElementById("login-nav").style.display = "none";
         document.getElementById("userInfo").style.display = "block";
+        document.getElementById("profile-view").style.display = "none";
         if (window.location.pathname != '/signup.html') {
             document.getElementById("logout-nav").style.display = "inline-block";
         }
@@ -47,6 +48,7 @@ function loggedOutObjects() {
     if (window.location.pathname != '/admin.html') {
         document.getElementById("signup-nav").style.display = "inline-block";
         document.getElementById("login-nav").style.display = "inline-block";
+        document.getElementById("profile-view").style.display = "block";
         if (window.location.pathname != '/signup.html') {
             document.getElementById("logout-nav").style.display = "none";
         }
@@ -118,18 +120,22 @@ function signOut() {
     document.getElementById("signIn").style.display = "inline-block";
     document.getElementById("signOut").style.display = "none";
 
-    /*window.location.href = "#";*/
+    window.location.href = "http://localhost:5000/login.html";
 }
 
 function signIn() {
     var email = document.getElementById("email");
     var password = document.getElementById("password");
-    const promise = auth.signInWithEmailAndPassword(email.value, password.value);
-    promise.catch(e => alert(e.message));
-
-    alert("Signed in")
-    email.style.display = "none";
-    password.style.display = "none";
+    auth.signInWithEmailAndPassword(email.value, password.value)
+        .then((userCredential) => {
+            alert("Signed in")
+            email.style.display = "none";
+            password.style.display = "none";
+            window.location.href = "http://localhost:5000/index.html";
+        })
+        .catch((error) => {
+            alert("Incorrect email or password");
+        });
 }
 
 function setAvailability() {
