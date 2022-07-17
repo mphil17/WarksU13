@@ -1,13 +1,11 @@
 /*------------------auth status------------------------*/
-let loggedIn = document.getElementById("loggedIn");
+var loggedIn = document.getElementById("loggedIn");
 const auth = firebase.auth();
 const database = firebase.database();
 const user = auth.currentUser;
 const storage = firebase.storage();
 const storageRef = storage.ref();
 
-/*------------for my own IDs------------------*/
-let playerNumber = 1
 
 
 
@@ -31,15 +29,13 @@ function loggedInObjects() {
         document.getElementById("signup-nav").style.display = "none";
         document.getElementById("login-nav").style.display = "none";
         document.getElementById("userInfo").style.display = "block";
-        document.getElementById("profile-view").style.display = "none";
-        if (window.location.pathname != '/signup.html') {
+        document.getElementById("eventInfo").style.display = "block";
+        document.getElementById("profile-view").style.display = "block";
+        if (window.location.pathname != '/signup.html' && window.location.pathname != '/login.html') {
             document.getElementById("logout-nav").style.display = "inline-block";
         }
         if (window.location.pathname == '/signup.html') {
-            document.getElementById("email").style.display = "none";
-            document.getElementById("password").style.display = "none";
-            document.getElementById("name").style.display = "none";
-            document.getElementById("signUp").style.display = "none";
+            document.getElementById("formContainer").style.display = "none";
         }
     }
 }
@@ -48,15 +44,14 @@ function loggedOutObjects() {
     if (window.location.pathname != '/admin.html') {
         document.getElementById("signup-nav").style.display = "inline-block";
         document.getElementById("login-nav").style.display = "inline-block";
-        document.getElementById("profile-view").style.display = "block";
-        if (window.location.pathname != '/signup.html') {
+        document.getElementById("userInfo").style.display = "none";
+        document.getElementById("eventInfo").style.display = "none";
+        document.getElementById("profile-view").style.display = "none";
+        if (window.location.pathname != '/signup.html' || window.location.pathname != '/login.html') {
             document.getElementById("logout-nav").style.display = "none";
         }
-        if (window.location.pathname == '/signup.html') {
-            document.getElementById("email").style.display = "inline-block";
-            document.getElementById("password").style.display = "inline-block";
-            document.getElementById("name").style.display = "inline-block";
-            document.getElementById("signUp").style.display = "inline-block";
+        if (window.location.pathname == '/signup.html' || window.location.pathname != '/login.html') {
+            document.getElementById("formContainer").style.display = "inline-block";
         }
         document.getElementById("userInfo").style.display = "none";
 
@@ -74,24 +69,14 @@ function makeId() {
 
 
 function sendNewUserToDatabase() {
-    /*put picture in storage if not blank*/
-    profilepic = document.getElementById("profile-photo").value;
-    var bytes = new Uint8Array([0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x2c, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x21]);
-    /*var file = new File(["profilepic"], profilepic)*/
-    if (profilepic != "") {
-        storageRef.child('/images/').put(bytes);
-    }
-
-    /*var profilePicRef = storage.child("profile picture");
-
-    // Create a reference to 'images/mountains.jpg'
-    var profilePicFullRef = storage.child(profilepic);*/
-
-    /*Send info to database*/
     playername = document.getElementById("name").value;
     email = document.getElementById("email").value;
     id = makeId();
-    console.log(profilepic);
+    /*put picture in storage if not blank*/
+    profilepic = document.getElementById("profile-photo").files[0];
+    if (profilepic != "") {
+        storageRef.child('/images/' + playername).put(profilepic);
+    }
     database.ref('users/' + id).set({
         playername: playername,
         email: email,
@@ -107,6 +92,8 @@ function signUp() {
     promise.catch(e => alert(e.message));
 
     alert("Signed up");
+
+    window.location.href = "http://localhost:5000/index.html";
 }
 
 function signOut() {
@@ -147,8 +134,8 @@ function setAvailability() {
             yesSelect = document.getElementById("yes-btn");
             noSelect = document.getElementById("no-btn");
             editSelect = document.getElementById("edit-btn");
-            database.ref('/users/' + playerNumber).on('value', (snapshot) => {
-                currentPlayer = snapshot.val().playername;
+            database.ref('/users/' + id).on('value', (snapshot) => {
+                currentPlayer = snapshot.val().id;
             });
             yesSelect.addEventListener("click", function() {
                 noSelect.style.display = "none";
@@ -215,18 +202,22 @@ function createAdminDatesList() {
 }
 
 function setProfileName() {
-    database.ref('/users/').on('value', (snapshot) => {
-        snapshot.forEach(function(childSnapshot) {
-            userEmail = auth.currentUser.email;
-            avEmail = childSnapshot.val().email;
-            if (userEmail === avEmail) {
-                document.getElementById("profile-name").innerHTML = childSnapshot.val().playername;
-            }
-            if (window.location.pathname == '/account.html') {
-                document.getElementById("email-account").value = userEmail;
-                document.getElementById("email-account").disabled = true;
-            }
-        })
+    auth.onAuthStateChanged(function(user) {
+        if (user) {
+            database.ref('/users/').on('value', (snapshot) => {
+                snapshot.forEach(function(childSnapshot) {
+                    userEmail = auth.currentUser.email;
+                    avEmail = childSnapshot.val().email;
+                    if (userEmail === avEmail) {
+                        document.getElementById("profile-name").innerHTML = childSnapshot.val().playername;
+                    }
+                    if (window.location.pathname == '/account.html') {
+                        document.getElementById("email-account").value = userEmail;
+                        document.getElementById("email-account").disabled = true;
+                    }
+                })
+            })
+        }
     })
 }
 

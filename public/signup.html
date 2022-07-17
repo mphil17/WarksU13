@@ -40,11 +40,15 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI " crossorigin="anonymous "></script>
     <script src="js/script.js "></script>
     <section class="section-1 ">
-        <div class="row ">
-            <div class="col-10 d-flex justify-content-end">
+        <div class="row">
+            <div class="col-2 d-flex justify-content-center" style="padding-top: 30px; display: none;" id="profile-view">
+                <a href="account.html" class="camera-pp-border"><i class="fa-solid fa-camera fa-xl camera-pp-style"></i></a>
+                <p id="profile-name" class="pp-name"></p>
+            </div>
+            <div class="col-8 d-flex justify-content-end">
                 <h1 style="color: aliceblue; font-size: 5vw; padding-right: 20px;">Warwickshire Hockey U13</h1>
             </div>
-            <div class="col-md-2 d-flex justify-content-end" style="padding-top: 50px;">
+            <div class="col-2 d-flex justify-content-end" style="padding-top: 70px;">
                 <a href="login.html" id="login-nav"><button class="button-style">Login</button></a>
                 <a href="signup.html" id="signup-nav"><button class="button-style">Sign Up</button></a>
             </div>
@@ -61,7 +65,7 @@
                         <a class="nav-item nav-link active" href="index.html">
                             <h4 class="main-sect-font2">Home</h4>
                         </a>
-                        <a class="nav-item nav-link" href="events.html">
+                        <a class="nav-item nav-link" href="events.html" id="eventInfo">
                             <h4 class="main-sect-font2">Upcoming Events</h4>
                         </a>
                         <a class="nav-item nav-link" href="#" id="userInfo">
