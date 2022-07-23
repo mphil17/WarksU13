@@ -319,9 +319,9 @@ function updateAccountDetails() {
 
 function getPic() {
     pp = document.getElementById("pppic");
-    database.ref('/users/').on('value', (snapshot) => {
-        snapshot.forEach(function(childSnapshot) {
-            pp.innerHTML = childSnapshot.val().profilepic;
-        })
-    })
+    var image = firebase.storage().ref('images/' + 'Matt Phillips');
+    image.getDownloadURL().then(imgUrl => {
+        pp.src = imgUrl;
+    });
+
 }
