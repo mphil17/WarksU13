@@ -15,6 +15,7 @@ auth.onAuthStateChanged(function(user) {
         if (window.location.pathname == '/events.html') {
             document.getElementById("availability").style.display = "inline-block"
         }
+        getPic();
     } else {
         loggedOutObjects();
         if (window.location.pathname == '/events.html') {
@@ -30,13 +31,15 @@ function loggedInObjects() {
         document.getElementById("login-nav").style.display = "none";
         document.getElementById("userInfo").style.display = "block";
         document.getElementById("eventInfo").style.display = "block";
-        document.getElementById("profile-view").style.display = "block";
+        document.getElementById("profile-view").style.visibility = "visible";
+        document.getElementById("profile-view").style.display = "flex";
+        /*document.getElementById("profile-view").classList.add("d-flex");*/
         if (window.location.pathname != '/signup.html' && window.location.pathname != '/login.html') {
             document.getElementById("logout-nav").style.display = "inline-block";
         }
-        if (window.location.pathname == '/signup.html') {
+        /*if (window.location.pathname == '/signup.html') {
             document.getElementById("formContainer").style.display = "none";
-        }
+        }*/
     }
 }
 
@@ -46,13 +49,14 @@ function loggedOutObjects() {
         document.getElementById("login-nav").style.display = "inline-block";
         document.getElementById("userInfo").style.display = "none";
         document.getElementById("eventInfo").style.display = "none";
-        document.getElementById("profile-view").style.display = "none";
+        document.getElementById("profile-view").classList.remove("d-flex");
+        document.getElementById("profile-view").style.visibility = "hidden";
         if (window.location.pathname != '/signup.html' || window.location.pathname != '/login.html') {
             document.getElementById("logout-nav").style.display = "none";
         }
-        if (window.location.pathname == '/signup.html' || window.location.pathname != '/login.html') {
+        /*if (window.location.pathname == '/signup.html' || window.location.pathname != '/login.html') {
             document.getElementById("formContainer").style.display = "inline-block";
-        }
+        }*/
         document.getElementById("userInfo").style.display = "none";
 
     }
@@ -75,7 +79,7 @@ function sendNewUserToDatabase() {
     /*put picture in storage if not blank*/
     profilepic = document.getElementById("profile-photo").files[0];
     if (profilepic != "") {
-        storageRef.child('/images/' + playername).put(profilepic);
+        storageRef.child('/images/' + id).put(profilepic);
     }
     database.ref('users/' + id).set({
         playername: playername,
@@ -85,15 +89,34 @@ function sendNewUserToDatabase() {
 }
 
 function signUp() {
-    /*Authentication*/
+    /*Send User to Database*/
+    playername = document.getElementById("name").value;
+    email = document.getElementById("email").value;
+    id = makeId();
+    /*put picture in storage if not blank*/
+    profilepic = document.getElementById("profile-photo").files[0];
+    if (profilepic != "") {
+        storageRef.child('/images/' + id).put(profilepic);
+    }
+    database.ref('users/' + id).set({
+            playername: playername,
+            email: email,
+            profilepic: profilepic,
+        })
+        /*Authentication*/
     var email = document.getElementById("email");
     var password = document.getElementById("password");
-    const promise = auth.createUserWithEmailAndPassword(email.value, password.value);
-    promise.catch(e => alert(e.message));
-
-    alert("Signed up");
-
-    window.location.href = "http://localhost:5000/index.html";
+    auth.createUserWithEmailAndPassword(email.value, password.value)
+        .then((userCredential) => {
+            // Signed in 
+            alert("Signed up");
+            window.location.href = "http://localhost:5000/index.html";
+        })
+        .catch((error) => {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            alert(errorCode + errorMessage);
+        });
 }
 
 function signOut() {
@@ -318,10 +341,39 @@ function updateAccountDetails() {
 }
 
 function getPic() {
-    pp = document.getElementById("pppic");
-    var image = firebase.storage().ref('images/' + 'Matt Phillips');
-    image.getDownloadURL().then(imgUrl => {
-        pp.src = imgUrl;
-    });
+    cameraDefault = document.getElementById("profile-click");
+    auth.onAuthStateChanged(function(user) {
+        database.ref('/users/').on('value', (snapshot) => {
+            snapshot.forEach(function(childSnapshot) {
+                userEmail = auth.currentUser.email;
+                avEmail = childSnapshot.val().email;
+                if (userEmail === avEmail) {
+                    var image = firebase.storage().ref('images/' + 'YOM6URXUYRIV');
+                    cameraDefault.innerHTML = '<i class="fa-solid fa-camera fa-xl camera-pp-style"></i>'
+                    if (image != null) {
+                        image.getDownloadURL().then(imageUrl => {
+                            console.log(imageUrl)
+                            if (imageUrl != null || imageUrl != undefined) {
+                                cameraDefault.innerHTML = '<img src="" id="profile-pic" class="profile-pic"></img>;'
+                                document.getElementById("profile-pic").src = imageUrl;
+                                console.log("here");
+                            } else {
+                                cameraDefault.innerHTML = '<i class="fa-solid fa-camera fa-xl camera-pp-style"></i>'
+                                console.log("no here");
+                            }
+                        });
+                    }
+                }
 
+            })
+        })
+    })
+}
+
+function Practice() {
+    var image = firebase.storage().ref('images/' + 'me dribble.jpg');
+    console.log(image.getDownloadURL());
+    image.getDownloadURL().then(imageUrl => {
+        console.log(imageUrl);
+    })
 }
