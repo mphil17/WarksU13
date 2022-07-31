@@ -72,11 +72,11 @@ function makeId() {
 }
 
 
-function sendNewUserToDatabase() {
+/*function sendNewUserToDatabase() {
     playername = document.getElementById("name").value;
     email = document.getElementById("email").value;
     id = makeId();
-    /*put picture in storage if not blank*/
+    /*put picture in storage if not blank
     profilepic = document.getElementById("profile-photo").files[0];
     if (profilepic != "") {
         storageRef.child('/images/' + id).put(profilepic);
@@ -86,7 +86,7 @@ function sendNewUserToDatabase() {
         email: email,
         profilepic: profilepic,
     })
-}
+}*/
 
 function signUp() {
     /*Send User to Database*/
@@ -101,7 +101,7 @@ function signUp() {
     database.ref('users/' + id).set({
             playername: playername,
             email: email,
-            profilepic: profilepic,
+            accepted: "No"
         })
         /*Authentication*/
     var email = document.getElementById("email");
@@ -221,6 +221,40 @@ function createAdminDatesList() {
         }
 
 
+    })
+}
+
+function acceptUserRequests() {
+    acceptSelect = document.getElementById("accept");
+    rejectSelect = document.getElementById("reject");
+    database.ref('/users/').on('value', (snapshot) => {
+        snapshot.forEach(function(childSnapshot) {
+            if (childSnapshot.val().accepted == "No") {
+                var player = childSnapshot.val().playername;
+                document.getElementById("user-requests").innerHTML = player;
+            } else if (childSnapshot.val().accepted == "Rejected") {
+                var player = childSnapshot.val().playername;
+                document.getElementById("user-requests").innerHTML = player += "- rejected";
+                acceptSelect.style.display = "None";
+                rejectSelect.style.display = "None";
+            }
+        })
+    })
+}
+
+function userRequestSelect() {
+    acceptSelect = document.getElementById("accept");
+    rejectSelect = document.getElementById("reject");
+    player = document.getElementById("user-requests");
+
+    acceptSelect.addEventListener("click", function() {
+        acceptSelect.style.display = "None";
+        rejectSelect.style.display = "None";
+        player.style.display = "None";
+    })
+    rejectSelect.addEventListener("click", function() {
+        acceptSelect.style.display = "None";
+        rejectSelect.style.display = "None";
     })
 }
 
@@ -352,14 +386,11 @@ function getPic() {
                     cameraDefault.innerHTML = '<i class="fa-solid fa-camera fa-xl camera-pp-style"></i>'
                     if (image != null) {
                         image.getDownloadURL().then(imageUrl => {
-                            console.log(imageUrl)
                             if (imageUrl != null || imageUrl != undefined) {
                                 cameraDefault.innerHTML = '<img src="" id="profile-pic" class="profile-pic"></img>;'
                                 document.getElementById("profile-pic").src = imageUrl;
-                                console.log("here");
                             } else {
                                 cameraDefault.innerHTML = '<i class="fa-solid fa-camera fa-xl camera-pp-style"></i>'
-                                console.log("no here");
                             }
                         });
                     }

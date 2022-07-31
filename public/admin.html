@@ -10,7 +10,7 @@
     <title>Warwickshire Hockey U13</title>
 </head>
 
-<body onload="createAdminDatesList(); if (document.referrer == '') self.location='index.html';">
+<body onload="createAdminDatesList(); acceptUserRequests(); if (document.referrer == '') self.location='index.html';">
     <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
 
@@ -42,10 +42,14 @@
     <!--Navbar using bootstrap-->
     <section class="section-1">
         <div class="row">
-            <div class="col-10 d-flex justify-content-end">
+            <div class="col-2 justify-content-center" style="padding-top: 30px; display: flex; visibility: hidden;" id="profile-view">
+                <a href="#" class="camera-pp-border" id="profile-click"><img src="" id="profile-pic" class="profile-pic"></a>
+                <p id="profile-name" class="pp-name"></p>
+            </div>
+            <div class="col-8 d-flex justify-content-end">
                 <h1 style="color: aliceblue; font-size: 5vw; padding-right: 20px;">Warwickshire Hockey U13</h1>
             </div>
-            <div class="col-md-2 d-flex justify-content-end" style="padding-top: 50px;">
+            <div class="col-2 d-flex justify-content-end" style="padding-top: 50px;">
                 <a href="login.html" id="logout-nav"><button class="button-style">Logout</button></a>
             </div>
         </div>
@@ -56,7 +60,7 @@
         <div class="row">
             <nav class="col-2 navbar">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="main-sect-font" id="menu-cross">Menu</span>
+                    <span class="main-sect-font" id="menu-cross"><i class="fa-solid fa-bars"></i></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav">
@@ -103,7 +107,9 @@
 
     </section>
     <section class="section-3">
-
+        <div id="user-requests" style="color: aliceblue;"></div>
+        <button onclick="" class="sign-in" id="accept">Accept</button>
+        <button onclick="" class="pp-selector" id="reject">Reject</button>
     </section>
 
 </body>
